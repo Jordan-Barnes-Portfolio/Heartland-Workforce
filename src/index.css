@@ -1,0 +1,259 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 0 0% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 98%;
+    --secondary: 0 0% 96.1%;
+    --secondary-foreground: 0 0% 9%;
+    --muted: 0 0% 96.1%;
+    --muted-foreground: 0 0% 45.1%;
+    --accent: 0 0% 96.1%;
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 0 0% 89.8%;
+    --input: 0 0% 89.8%;
+    --ring: 0 0% 3.9%;
+    --radius: 0rem;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans;
+  }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+/* Custom scrollbar styles */
+.widget-card, 
+.widget-content {
+  scrollbar-width: thin;
+  scrollbar-color: #E5E7EB transparent;
+}
+
+.widget-card::-webkit-scrollbar,
+.widget-content::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.widget-card::-webkit-scrollbar-track,
+.widget-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.widget-card::-webkit-scrollbar-thumb,
+.widget-content::-webkit-scrollbar-thumb {
+  background-color: #E5E7EB;
+  border-radius: 3px;
+  transition: background-color 0.2s ease;
+}
+
+.widget-card:hover::-webkit-scrollbar-thumb,
+.widget-content:hover::-webkit-scrollbar-thumb {
+  background-color: #D1D5DB;
+}
+
+.widget-card::-webkit-scrollbar-thumb:hover,
+.widget-content::-webkit-scrollbar-thumb:hover {
+  background-color: #9CA3AF;
+}
+
+/* Custom transitions */
+.transition-all {
+  transition: all 0.2s ease;
+}
+
+/* React Grid Layout styles */
+.react-grid-item {
+  transition: all 200ms ease;
+  transition-property: left, top, width, height;
+}
+
+.react-grid-item.cssTransforms {
+  transition-property: transform, width, height;
+}
+
+.react-grid-item.resizing {
+  transition: none;
+  z-index: 2;
+}
+
+.react-grid-item.react-draggable-dragging {
+  transition: none;
+  z-index: 3;
+}
+
+.react-grid-item.react-grid-placeholder {
+  @apply bg-blue-100/50 border-2 border-dashed border-blue-300;
+  transition-duration: 100ms;
+  z-index: 1;
+  user-select: none;
+}
+
+.react-resizable-handle {
+  @apply opacity-0 transition-opacity duration-200 !important;
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  z-index: 10;
+}
+
+.react-grid-item:hover .react-resizable-handle {
+  @apply opacity-100 !important;
+}
+
+/* Corner resize handles */
+.react-resizable-handle-se {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+}
+
+.react-resizable-handle-sw {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+}
+
+.react-resizable-handle-nw {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+}
+
+.react-resizable-handle-ne {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+}
+
+/* Edge resize handles */
+.react-resizable-handle-w,
+.react-resizable-handle-e {
+  top: 50%;
+  margin-top: -10px;
+  width: 20px;
+  height: 20px;
+}
+
+.react-resizable-handle-w {
+  left: 0;
+  cursor: w-resize;
+}
+
+.react-resizable-handle-e {
+  right: 0;
+  cursor: e-resize;
+}
+
+.react-resizable-handle-n,
+.react-resizable-handle-s {
+  left: 50%;
+  margin-left: -10px;
+  width: 20px;
+  height: 20px;
+}
+
+.react-resizable-handle-n {
+  top: 0;
+  cursor: n-resize;
+}
+
+.react-resizable-handle-s {
+  bottom: 0;
+  cursor: s-resize;
+}
+
+/* Resize handle indicators */
+.react-resizable-handle::after {
+  content: "";
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #9CA3AF;
+  background: white;
+}
+
+.react-resizable-handle-se::after {
+  right: 3px;
+  bottom: 3px;
+}
+
+.react-resizable-handle-sw::after {
+  left: 3px;
+  bottom: 3px;
+}
+
+.react-resizable-handle-nw::after {
+  left: 3px;
+  top: 3px;
+}
+
+.react-resizable-handle-ne::after {
+  right: 3px;
+  top: 3px;
+}
+
+.react-resizable-handle-w::after,
+.react-resizable-handle-e::after {
+  top: 50%;
+  margin-top: -4px;
+}
+
+.react-resizable-handle-w::after {
+  left: 3px;
+}
+
+.react-resizable-handle-e::after {
+  right: 3px;
+}
+
+.react-resizable-handle-n::after,
+.react-resizable-handle-s::after {
+  left: 50%;
+  margin-left: -4px;
+}
+
+.react-resizable-handle-n::after {
+  top: 3px;
+}
+
+.react-resizable-handle-s::after {
+  bottom: 3px;
+}
+
+.drag-handle {
+  @apply cursor-move;
+}
+
+/* Widget styles */
+.widget-card {
+  @apply h-full overflow-hidden;
+}
