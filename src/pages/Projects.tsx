@@ -47,7 +47,6 @@ export function Projects() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState<Project | null>(null);
   const [newProject, setNewProject] = useState<Partial<Project>>({
-    clientName: '',
     projectType: '',
     status: 'not-started',
     description: '',
@@ -99,7 +98,7 @@ export function Projects() {
   });
 
   const handleCreateProject = async () => {
-    if (!newProject.clientName || !newProject.projectType) {
+    if (!newProject.client?.contact.name || !newProject.projectType) {
       // Show error toast
       return;
     }
@@ -108,7 +107,6 @@ export function Projects() {
     try {
       // Ensure all required fields are present
       const projectToCreate = {
-        clientName: newProject.clientName || '',
         projectType: newProject.projectType || '',
         status: newProject.status || 'not-started',
         description: newProject.description || '',
@@ -276,9 +274,26 @@ export function Projects() {
                 <Label htmlFor="clientName">Client Name</Label>
                 <Input
                   id="clientName"
-                  value={newProject.clientName || ''}
+                  value={newProject.client?.contact.name}
                   onChange={(e) =>
-                    setNewProject({ ...newProject, clientName: e.target.value })
+                    setNewProject({
+                      ...newProject,
+                      client: {
+                        name: newProject.client?.name || '',
+                        address: newProject.client?.address || {
+                          street: '',
+                          city: '',
+                          state: '',
+                          zipCode: ''
+                        },
+                        contact: {
+                          ...newProject.client?.contact,
+                          name: e.target.value,
+                          phone: newProject.client?.contact?.phone || '',
+                          email: newProject.client?.contact?.email || ''
+                        }
+                      }
+                    })
                   }
                 />
               </div>

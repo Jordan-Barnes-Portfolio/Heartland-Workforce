@@ -24,6 +24,7 @@ import {
   Wind,
   UserCog,
   Mail,
+  Heart,
 } from 'lucide-react';
 import type { Project, Client } from '@/types/project';
 import { ReferralPartnersList } from './ReferralPartnersList';
@@ -89,7 +90,7 @@ export function DetailedProjectCard({ project, onUpdate }: DetailedProjectCardPr
         <div className="flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-gray-900">
-              {project.clientName}
+              {project.client.contact.name}
               <span className="mx-2 text-gray-400">|</span>
               <span className="text-gray-600">{project.projectType}</span>
             </h3>
@@ -140,7 +141,7 @@ export function DetailedProjectCard({ project, onUpdate }: DetailedProjectCardPr
               )}
             </div>
             <div className="space-y-2 text-sm">
-              <p className="font-medium text-gray-800">{project.client?.name || project.clientName}</p>
+              <p className="font-medium text-gray-800">{project.client?.contact.name}</p>
               {project.client?.address && (
                 <div className="text-gray-600">
                   <p>{project.client.address.street}</p>
@@ -228,6 +229,17 @@ export function DetailedProjectCard({ project, onUpdate }: DetailedProjectCardPr
           <h4 className="mb-3 font-medium text-gray-900">Project Indicators</h4>
           <div className="flex flex-wrap gap-2">
             <TooltipProvider>
+            {project.indicators.healthConcerns && (
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Badge variant="destructive" className="gap-1">
+                      <Heart className="h-3 w-3" />
+                      Health
+                    </Badge>
+                  </TooltipTrigger>
+                  <TooltipContent>Health Concerns</TooltipContent>
+                </Tooltip>
+              )}
               {project.indicators.claimRecommended && (
                 <Tooltip>
                   <TooltipTrigger>

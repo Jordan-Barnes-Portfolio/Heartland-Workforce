@@ -25,7 +25,6 @@ import { useToast } from '@/hooks/use-toast';
 import { ReferrerSelect } from './ReferrerSelect';
 import { Checkbox } from '@/components/ui/checkbox';
 import type { Project, Referrer } from '@/types/project';
-import { Label } from '@/components/ui/label';
 import { formatCurrency, updateProject } from '@/lib/firestore-service';
 import { enrichProjectDescription, isOpenAIConfigured } from '@/lib/openai-service';
 import { OpenAIConfigModal } from './OpenAIConfigModal';
@@ -34,7 +33,6 @@ import { OpenAIStatusBadge } from './OpenAIStatusBadge';
 const STORAGE_KEY = 'project_form_data';
 
 const projectSchema = z.object({
-  clientName: z.string().min(1, 'Client name is required'),
   projectType: z.string().min(1, 'Project type is required'),
   status: z.enum(['not-started', 'in-progress', 'completed']),
   description: z.string().min(1, 'Description is required'),
@@ -103,7 +101,6 @@ export function ProjectForm({ project, onSubmit, onCancel }: ProjectFormProps) {
   const form = useForm<ProjectFormData>({
     resolver: zodResolver(projectSchema),
     defaultValues: {
-      clientName: project.clientName,
       projectType: project.projectType,
       status: project.status,
       description: project.description,
@@ -166,14 +163,15 @@ export function ProjectForm({ project, onSubmit, onCancel }: ProjectFormProps) {
 
   const handleSubmit = async (data: ProjectFormData) => {
     console.log('🔍 handleSubmit triggered with form data:', JSON.stringify(data, null, 2));
-    console.log('🔍 Form validation state:', form.formState);
+    console.log('🔍 Form validation state:', JSON.stringify(form.formState, null, 2));
     
     // Check if the form is valid
+    console.log('🔍 Running form validation via trigger...');
     const isValid = await form.trigger();
     console.log('🔍 Form validation result:', isValid);
     
     if (!isValid) {
-      console.error('🔍 Form validation failed. Errors:', form.formState.errors);
+      console.error('🔍 Form validation failed. Errors:', JSON.stringify(form.formState.errors, null, 2));
       toast({
         title: 'Validation Error',
         description: 'Please fill in all required fields correctly.',
@@ -181,6 +179,8 @@ export function ProjectForm({ project, onSubmit, onCancel }: ProjectFormProps) {
       });
       return;
     }
+    
+    console.log('🔍 Form validation passed, proceeding with submission');
     
     try {
       setIsSubmitting(true);
@@ -220,7 +220,6 @@ export function ProjectForm({ project, onSubmit, onCancel }: ProjectFormProps) {
       console.log('🔍 Preparing updated project data');
       const updatedProject = {
         ...project,
-        clientName: data.clientName,
         projectType: data.projectType,
         status: data.status,
         description: data.description,
@@ -261,7 +260,7 @@ export function ProjectForm({ project, onSubmit, onCancel }: ProjectFormProps) {
       });
       console.log('🔍 Success toast displayed');
     } catch (error) {
-      console.error('🔍 Form submission failed:', error);
+      console.error('🔍 Form submission failed with error:', error);
       toast({
         title: 'Save Failed',
         description: 'Failed to save changes. Please try again.',
@@ -481,7 +480,14 @@ export function ProjectForm({ project, onSubmit, onCancel }: ProjectFormProps) {
       <form 
         onSubmit={(e) => {
           console.log('🔍 Form onSubmit event triggered', e);
-          form.handleSubmit(handleSubmit)(e);
+          console.log('🔍 Current form state before submission:', form.formState);
+          console.log('🔍 Form values before submission:', form.getValues());
+          console.log('🔍 Is form dirty?', form.formState.isDirty);
+          console.log('🔍 Calling form.handleSubmit with handleSubmit function');
+          form.handleSubmit((data) => {
+            console.log('🔍 Inside form.handleSubmit callback with data:', data);
+            return handleSubmit(data);
+          })(e);
         }} 
         className="space-y-4"
       >
@@ -879,7 +885,14 @@ export function ProjectForm({ project, onSubmit, onCancel }: ProjectFormProps) {
           <Button 
             type="submit" 
             disabled={isSubmitting}
-            onClick={() => console.log('🔍 Save button clicked, form state:', form.formState)}
+            onClick={(e) => {
+              console.log('🔍 Save button clicked', e);
+              console.log('🔍 Event type:', e.type);
+              console.log('🔍 Default prevented?', e.defaultPrevented);
+              console.log('🔍 Is form valid?', form.formState.isValid);
+              console.log('🔍 Form errors:', JSON.stringify(form.formState.errors, null, 2));
+              // Don't add any logic here - we want the native form submission to work
+            }}
           >
             {isSubmitting ? 'Saving...' : 'Save Changes'}
           </Button>

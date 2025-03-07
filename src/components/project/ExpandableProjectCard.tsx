@@ -8,7 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from '@/components/ui/dialog';
 import {
   AlertTriangle,
@@ -30,6 +29,7 @@ import {
   Trash2,
   UserCog,
   Mail,
+  Heart,
 } from 'lucide-react';
 import { ProjectForm } from './ProjectForm';
 import { ReferralPartnersList } from './ReferralPartnersList';
@@ -138,8 +138,8 @@ export function ExpandableProjectCard({ project, onUpdate, onDelete }: Expandabl
       <div className="border-b border-gray-100 bg-gradient-to-r from-gray-50 to-white p-4">
         <div className="flex items-center justify-between">
           <div className="flex-1">
-            <h3 className="text-lg font-semibold text-gray-900">
-              {project.clientName}
+            <h3 className="text-lg font-semibold text-gray-600">
+              {project.client.contact.name}
               <span className="mx-2 text-gray-400">|</span>
               <span className="text-gray-600">{project.projectType}</span>
             </h3>
@@ -334,7 +334,7 @@ export function ExpandableProjectCard({ project, onUpdate, onDelete }: Expandabl
                     </h4>
                   </div>
                   <div className="space-y-2 text-sm">
-                    <p className="font-medium text-gray-800">{project.client?.name || project.clientName}</p>
+                    <p className="font-medium text-gray-800">{project.client?.contact.name}</p>
                     {project.client?.address && (
                       <div className="text-gray-600">
                         <p>{project.client.address.street}</p>
@@ -368,7 +368,7 @@ export function ExpandableProjectCard({ project, onUpdate, onDelete }: Expandabl
                         className="h-7 px-2"
                       >
                         <UserCog className="h-3.5 w-3.5 mr-1" />
-                        Edit - Stuff so i know hwere this is
+                        Edit
                       </Button>
                     </div>
                   </div>
@@ -400,6 +400,12 @@ export function ExpandableProjectCard({ project, onUpdate, onDelete }: Expandabl
                     Project Indicators
                   </h4>
                   <div className="flex flex-wrap gap-2">
+                    {project.indicators.healthConcerns && (
+                      <Badge variant="destructive" className="gap-1">
+                        <Heart className="h-3 w-3" />
+                        Health Concerns
+                      </Badge>
+                    )}
                     {project.indicators.claimRecommended && (
                       <Badge variant="secondary" className="gap-1">
                         <DollarSign className="h-3 w-3" />

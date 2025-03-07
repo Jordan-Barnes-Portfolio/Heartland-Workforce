@@ -81,7 +81,6 @@ export interface DailyDocumentation {
 
 export interface Project {
   id: string;
-  clientName: string;
   projectType: string;
   status: 'not-started' | 'in-progress' | 'completed';
   referrers: Referrer[]; // Updated to support multiple referrers

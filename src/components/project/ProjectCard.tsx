@@ -47,7 +47,7 @@ export function ProjectCard({ project }: ProjectCardProps) {
     >
       <div className="flex items-start justify-between">
         <div>
-          <h3 className="font-semibold">{project.clientName}</h3>
+          <h3 className="font-semibold">{project.client.contact.name}</h3>
           <p className="mt-1 text-sm text-gray-500">{project.projectType}</p>
         </div>
         <div className="flex items-center gap-2">

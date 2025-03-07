@@ -392,7 +392,7 @@ export function Dispatch() {
                         .filter((p) => p.status === 'not-started')
                         .map((project) => (
                           <SelectItem key={project.id} value={project.id}>
-                            {project.projectType} - {project.clientName}
+                            {project.projectType} - {project.client.contact.name}
                           </SelectItem>
                         ))}
                     </SelectContent>

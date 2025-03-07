@@ -150,7 +150,7 @@ export function ProjectDocumentation() {
                     Project Documentation
                   </h1>
                   <p className="mt-1 text-sm text-gray-500">
-                    {project.clientName} - {project.projectType}
+                    {project.client.contact.name} - {project.projectType}
                   </p>
                 </div>
                 <div className="flex gap-2">
