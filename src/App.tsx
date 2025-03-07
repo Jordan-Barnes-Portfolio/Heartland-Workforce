@@ -18,6 +18,7 @@ import { PartnerProvider } from '@/lib/partner-context';
 import { AuthProvider } from '@/lib/auth-context';
 import { Toaster } from '@/components/ui/toaster';
 import { ProtectedRoute } from '@/components/ProtectedRoute';
+import { Dispatch } from './pages/Dispatch';
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
               <Route path="/wiki" element={<Wiki />} />
               <Route path="/claim-ready" element={<ClaimReadyPlus />} />
               <Route path="/settings" element={<Settings />} />
+              <Route path="/dispatch" element={<Dispatch />} />
               <Route path="/" element={<Navigate to="/login" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
